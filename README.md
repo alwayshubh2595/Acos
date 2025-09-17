@@ -31,33 +31,6 @@ Email: Gmail API (extendable to Outlook/others)
 
 Auth: Google OAuth2
 
-\n
-Getting Started
-\n
-1. Create and activate a virtual environment, then install deps:
-\n
-```bash
-python -m venv .venv
-.venv\\Scripts\\activate
-pip install -r requirements.txt
-```
-\n
-2. Set environment variables (PowerShell):
-\n
-```powershell
-$env:OPENAI_API_KEY = "..."
-$env:GOOGLE_APPLICATION_CREDENTIALS = "C:\\path\\to\\service_account.json"
-$env:ELEVENLABS_API_KEY = "..."
-```
-\n
-3. Run the API:
-\n
-```bash
-uvicorn app:app --reload
-```
-\n
-4. Visit `http://localhost:8000/docs` for interactive API docs. Health check at `/health`. Static UI at `http://localhost:8000/`.
-
 
 🎯 Roadmap
 
