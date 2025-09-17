@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Acos Inbox</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
+      .row { margin-bottom: 12px; }
+      button { padding: 8px 12px; margin-right: 8px; }
+      #subject { font-weight: 600; }
+      #summary { white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h2>AI Voice Inbox</h2>
+    <div class="row">
+      <button id="prevBtn">Prev</button>
+      <button id="nextBtn">Next</button>
+      <button id="speakBtn">Speak Summary</button>
+    </div>
+    <div class="row">Index: <span id="index">0</span></div>
+    <div class="row">Subject: <span id="subject">(Loading...)</span></div>
+    <div class="row"><strong>Summary</strong></div>
+    <div id="summary">(Loading...)</div>
+
+    <audio id="player" controls style="margin-top: 12px; width: 100%"></audio>
+
+    <script>
+      let index = 0;
+
+      async function fetchEmail(i) {
+        const res = await fetch(`/emails/latest?index=${i}`);
+        if (!res.ok) throw new Error('Failed to fetch email');
+        return res.json();
+      }
+
+      async function summarize(subject, body) {
+        const url = new URL('/summarize', window.location.origin);
+        url.searchParams.set('subject', subject);
+        url.searchParams.set('body', body);
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Failed to summarize');
+        return res.json();
+      }
+
+      async function loadIndex(i) {
+        document.getElementById('index').textContent = String(i);
+        document.getElementById('subject').textContent = 'Loading...';
+        document.getElementById('summary').textContent = 'Loading...';
+        try {
+          const email = await fetchEmail(i);
+          const subject = email.subject || '(No Subject)';
+          document.getElementById('subject').textContent = subject;
+          if (subject === 'No more messages') {
+            document.getElementById('summary').textContent = 'You have no more messages in your inbox.';
+            return;
+          }
+          const { summary } = await summarize(subject, email.body || '');
+          document.getElementById('summary').textContent = summary || '(No summary)';
+        } catch (e) {
+          document.getElementById('subject').textContent = 'Error';
+          document.getElementById('summary').textContent = e.message;
+        }
+      }
+
+      async function speak(text) {
+        const url = new URL('/tts', window.location.origin);
+        url.searchParams.set('text', text);
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Failed to fetch audio');
+        const blob = await res.blob();
+        const urlObj = URL.createObjectURL(blob);
+        const player = document.getElementById('player');
+        player.src = urlObj;
+        player.play();
+      }
+
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        index = Math.max(0, index - 1);
+        loadIndex(index);
+      });
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        index += 1;
+        loadIndex(index);
+      });
+      document.getElementById('speakBtn').addEventListener('click', () => {
+        const summary = document.getElementById('summary').textContent;
+        speak(summary);
+      });
+
+      loadIndex(index);
+    </script>
+  </body>
+  </html>
+
+
