@@ -2,9 +2,16 @@
 import openai
 import tempfile
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
+
+# Initialize OpenAI client with API key
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def speak_text(text: str):
-    response = openai.audio.speech.create(
+    response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         voice="alloy",
         input=text
@@ -23,7 +30,7 @@ def speak_text(text: str):
 
 def synthesize_speech_bytes(text: str) -> tuple[bytes, str]:
     """Return synthesized speech bytes and content type for API responses."""
-    response = openai.audio.speech.create(
+    response = client.audio.speech.create(
         model="gpt-4o-mini-tts",
         voice="alloy",
         input=text

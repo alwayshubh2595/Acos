@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AI Voice Inbox Design System - Modern, professional with AI theming */
+
+@layer base {
+  :root {
+    /* Base colors */
+    --background: 248 250 252;
+    --foreground: 215 25% 16%;
+
+    /* Card system */
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 16%;
+
+    /* Popover system */
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 16%;
+
+    /* Primary - AI Blue theme */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
+
+    /* Secondary - Clean neutral */
+    --secondary: 215 20% 94%;
+    --secondary-foreground: 215 25% 26%;
+
+    /* Muted tones */
+    --muted: 215 20% 94%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent - AI Purple */
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Voice theme colors */
+    --voice: 192 84% 56%;
+    --voice-foreground: 0 0% 100%;
+
+    /* Status colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 215 20% 89%;
+    --input: 215 20% 89%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-ai: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-voice: linear-gradient(135deg, hsl(var(--voice)), hsl(var(--primary)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+
+    /* Shadows */
+    --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-voice: 0 8px 25px -8px hsl(var(--voice) / 0.3);
+    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.15);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    /* Base colors - dark theme */
+    --background: 215 28% 8%;
+    --foreground: 215 20% 90%;
+
+    /* Card system */
+    --card: 215 28% 10%;
+    --card-foreground: 215 20% 90%;
+
+    /* Popover system */
+    --popover: 215 28% 10%;
+    --popover-foreground: 215 20% 90%;
+
+    /* Primary - AI Blue theme */
+    --primary: 217 91% 65%;
+    --primary-foreground: 215 28% 8%;
+    --primary-hover: 217 91% 70%;
+
+    /* Secondary - Clean neutral */
+    --secondary: 215 25% 16%;
+    --secondary-foreground: 215 20% 90%;
+
+    /* Muted tones */
+    --muted: 215 25% 16%;
+    --muted-foreground: 215 20% 65%;
+
+    /* Accent - AI Purple */
+    --accent: 262 83% 65%;
+    --accent-foreground: 215 28% 8%;
+
+    /* Voice theme colors */
+    --voice: 192 84% 60%;
+    --voice-foreground: 215 28% 8%;
+
+    /* Status colors */
+    --success: 142 76% 45%;
+    --success-foreground: 215 28% 8%;
+    
+    --destructive: 0 84% 65%;
+    --destructive-foreground: 215 28% 8%;
+
+    /* Borders and inputs */
+    --border: 215 25% 20%;
+    --input: 215 25% 20%;
+    --ring: 217 91% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Voice Assistant Components */
+  .voice-card {
+    @apply bg-card border rounded-xl shadow-[var(--shadow-card)] transition-[var(--transition-smooth)];
+  }
+  
+  .voice-card:hover {
+    @apply shadow-[var(--shadow-glow)] border-primary/20;
+  }
+
+  .ai-gradient {
+    background: var(--gradient-ai);
+  }
+  
+  .voice-gradient {
+    background: var(--gradient-voice);
+  }
+
+  /* Audio Waveform Animation */
+  .audio-wave {
+    @apply inline-block w-1 bg-voice rounded-full animate-pulse;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+  
+  .audio-wave:nth-child(1) { animation-delay: 0s; }
+  .audio-wave:nth-child(2) { animation-delay: 0.1s; }
+  .audio-wave:nth-child(3) { animation-delay: 0.2s; }
+  .audio-wave:nth-child(4) { animation-delay: 0.3s; }
+  .audio-wave:nth-child(5) { animation-delay: 0.4s; }
+
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+}
